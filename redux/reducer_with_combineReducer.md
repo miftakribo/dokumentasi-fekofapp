@@ -1,6 +1,6 @@
 before
 
-```jsx
+```javascript
 import * as C from './constant';
 
 const dummiesData = {
@@ -125,7 +125,7 @@ export default drmCampaignSetting;
 
 
 after
-```jsx
+```javascript
 import * as C from './constant';
 import { combineReducers } from 'redux'
 
