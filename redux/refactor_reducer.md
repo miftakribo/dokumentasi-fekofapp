@@ -1,3 +1,130 @@
+before
+
+```jsx
+import * as C from './constant';
+
+const dummiesData = {
+  userlist: {
+    loading: false,
+    data: [
+      {id: 1, name: 'All Visitor'},
+      {id: 2, name: 'Customer'},
+      {id: 3, name: 'Past Buyer'},
+    ]
+  },
+  haveExistingPortfolio: false,
+  existingPortfolio: [
+    {value: 0, label: 'Fetching Existing Portfolio...'}
+  ]
+};
+
+const drmCampaignSetting = (state = {
+  userlist: {
+    loading: false,
+    data: [],
+    error: null
+  },
+  savelist: {
+    loading: false,
+    response: {},
+    error: null
+  },
+  form: null,
+  ...dummiesData
+}, action) => {
+  switch (action.type) {
+    case C.LIST_REQ:
+      return {
+        ...state,
+        userlist: {
+          loading: true,
+          data: [],
+          error: null
+        }
+      };
+      break;
+    case C.LIST_FUL:
+      return {
+        ...state,
+        userlist: {
+          loading: false,
+          data: action.payload,
+          error: null
+        }
+      };
+      break;
+    case C.LIST_REJ:
+      return {
+        ...state,
+        userlist: {
+          loading: false,
+          data: [],
+          error: action.payload
+        }
+      };
+      break;
+    case C.FORM_SAVE:
+      return {
+        ...state,
+        form: action.form
+      };
+      break;
+    case C.DRM_REFRESH_CAMPAIGN_SETTING:
+      return {
+        ...state,
+        savelist: {
+          loading: false,
+          response: {},
+          error: null
+        },
+        form: null
+      }
+    case 'FETCH_EXISTING_PORTFOLIO':
+      return {
+        ...state,
+        existingPortfolio: action.data.map(item => ({value: item.id, label: item.name})),
+        haveExistingPortfolio: true
+      }
+      case C.SAVE_LIST_REQ:
+      	return {
+      		...state,
+      		savelist: {
+      			loading: true,
+      			response: {},
+      			error: null
+      		}
+      	}
+      	break;
+      case C.SAVE_LIST_FUL:
+      	return {
+      		...state,
+      		savelist: {
+      			loading: false,
+      			response: action.payload,
+      			error: null
+      		}
+      	}
+      	break;
+      case C.SAVE_LIST_REJ:
+      	return {
+      		...state,
+      		savelist: {
+      			loading: false,
+      			response: {},
+      			error: action.payload
+      		}
+      	}
+      	break;
+    default:
+      return state;
+  }
+};
+
+export default drmCampaignSetting;
+```
+
+
+after
 ```jsx
 import * as C from './constant';
 import { combineReducers } from 'redux'
