@@ -129,7 +129,7 @@ after
 import * as C from './constant';
 import { combineReducers } from 'redux'
 
-const APIHandler = {
+const fetchHandler = {
   request: (data) => ({
     loading: true,
     data: data,
@@ -155,13 +155,13 @@ const initialUserList = {
 const userList = (state = initialUserList, action) => {
   switch (action.type) {
     case C.LIST_REQ:
-      return APIHandler.request([])
+      return fetchHandler.request([])
       break;
     case C.LIST_FUL:
-      return APIHandler.fulfilled(action.payload)
+      return fetchHandler.fulfilled(action.payload)
       break;
     case C.LIST_REJ:
-      return APIHandler.rejected(action.payload)
+      return fetchHandler.rejected(action.payload)
       break;
     default: return state
   }
@@ -175,13 +175,13 @@ const initialSaveList = {
 const saveList = (state = initialSaveList, action) => {
   switch (action.type) {
     case C.SAVE_LIST_REQ:
-     return APIHandler.request({})
+     return fetchHandler.request({})
      break;
     case C.SAVE_LIST_FUL:
-     return APIHandler.fulfilled(action.payload)
+     return fetchHandler.fulfilled(action.payload)
      break;
     case C.SAVE_LIST_REJ:
-     return APIHandler.rejected(action.payload)
+     return fetchHandler.rejected(action.payload)
      break;
     case C.DRM_REFRESH_CAMPAIGN_SETTING:
       return initialSaveList
@@ -257,7 +257,7 @@ import * as C from './constant';
 import { combineReducers } from 'redux'
 import { createReducer } from 'helpers/redux'
 
-const APIHandler = {
+const fetchHandler = {
   request: (data) => ({
     loading: true,
     data: data,
@@ -281,9 +281,9 @@ const initialUserList = {
   error: null
 }
 const userList = createReducer(initialUserList, {
-  [C.LIST_REQ]: (state, action) => APIHandler.request([]),
-  [C.LIST_FUL]: (state, action) => APIHandler.fulfilled(action.payload),
-  [C.LIST_REJ]: (state, action) => APIHandler.rejected(action.payload)
+  [C.LIST_REQ]: (state, action) => fetchHandler.request([]),
+  [C.LIST_FUL]: (state, action) => fetchHandler.fulfilled(action.payload),
+  [C.LIST_REJ]: (state, action) => fetchHandler.rejected(action.payload)
 })
 
 const initialSaveList = {
@@ -292,9 +292,9 @@ const initialSaveList = {
   error: null
 }
 const saveList = createReducer(initialSaveList, {
-  [C.SAVE_LIST_REQ]: (state, action) => APIHandler.request({}),
-  [C.SAVE_LIST_FUL]: (state, action) => APIHandler.fulfilled(action.payload),
-  [C.SAVE_LIST_REJ]: (state, action) => APIHandler.rejected(action.payload)
+  [C.SAVE_LIST_REQ]: (state, action) => fetchHandler.request({}),
+  [C.SAVE_LIST_FUL]: (state, action) => fetchHandler.fulfilled(action.payload),
+  [C.SAVE_LIST_REJ]: (state, action) => fetchHandler.rejected(action.payload)
 })
 
 const formReducer = createReducer(null, {
