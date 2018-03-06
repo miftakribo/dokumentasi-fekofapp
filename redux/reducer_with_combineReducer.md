@@ -1,17 +1,15 @@
 # refactor reducer
 
-mungkin ini berguna jika reducer yang kita buat terlalu besar dan komplex sehingga butuh direfactor menjadi beberapa bagian, berikut contoh kasus yang di ambil dari 'drm/campaign-setting' (mungkin kasus pada contoh di bawah belum perlu di refactor karena tidak besar dan tidak kompleks)
+Ini berguna jika reducer yang kita buat terlalu besar dan komplex sehingga butuh direfactor dengan cara:
+1. membuat 'reusable function': *fetchHandler*, *createReducer*.
+2. memecah reducer yang komplex menjadi beberapa sub-reducer yang sederhana menggunakan *combineReducer*.
 
-- membuat 'reusable function' contoh: fetchHandler
-- jika reducer bloated, pecah saja dengan combineReducer 
-- buat fungsi createReducer agar reducer lebih slim
-
-berikut merupakan contoh kasus reducer sebelum direfactor:
+berikut merupakan contoh kasus reducer sebelum direfactor: (mungkin kasus pada contoh di bawah belum perlu di refactor karena tidak besar dan tidak kompleks)
 
 ```javascript
 import * as C from './constant';
 
-const dummiesData = {
+const dummiesData = { 
   userlist: {
     loading: false,
     data: [
@@ -132,7 +130,7 @@ export default drmCampaignSetting;
 ```
 
 
-setelah menggunakan combineReducer dan fungsi fetchHandler:
+setelah menggunakan direfactor menggunakan *combineReducer* dan *fetchHandler*:
 ```javascript
 import * as C from './constant';
 import { combineReducers } from 'redux'
@@ -245,8 +243,10 @@ const drmCampaignSetting = combineReducers({
 
 export default drmCampaignSetting;
 ```
-keuntungan menbuat fetchHandler adalah agar setiap fetch yang dilakukan memiliki flow yang sama, dan disarankan data yang diteruskan dari action adalah original response data dari API, kalaupun mesti ada normalize /  mapping ke bentuk yang dilakukan sebaiknya di lakukan di component atau menggunakan library selector 'reselect'.
-dikarenakan combine reducer bisa nested berguna untuk memecah reducer yang kompleks menjadi bentuk2 reducer kecil yang lebih sederhana tanpa merubah structur reducer sebelumnya.
+keuntungan menbuat *fetchHandler* adalah agar setiap fetch yang dilakukan memiliki flow yang sama, dan disarankan data yang diteruskan dari action adalah original response data dari API, kalaupun mesti ada normalize /  mapping ke bentuk yang dibutuhkan sebaiknya dilakukan di component atau menggunakan library selector [reselect](https://github.com/reactjs/reselect).
+
+Dikarenakan *combineReducer* bisa nested sehingga berguna untuk memecah reducer yang kompleks menjadi bentuk2 reducer kecil yang lebih sederhana tanpa merubah structur reducer sebelumnya.
+
 ```javascript
 rootReducer = combineReducers({
   router, // redux-react-router reducer
