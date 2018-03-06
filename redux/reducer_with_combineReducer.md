@@ -237,3 +237,91 @@ const drmCampaignSetting = combineReducers({
 
 export default drmCampaignSetting;
 ```
+
+with createReducer helpers
+- createReducer:
+```javascript
+export function createReducer(initialState, handlers) {
+  return function reducer(state = initialState, action) {
+    if (handlers.hasOwnProperty(action.type)) {
+      return handlers[action.type](state, action)
+    } else {
+      return state
+    }
+  }
+}
+```
+
+```javascript
+import * as C from './constant';
+import { combineReducers } from 'redux'
+import { createReducer } from 'helpers/redux'
+
+const APIHandler = {
+  request: (data) => ({
+    loading: true,
+    data: data,
+    error: null
+  }),
+  fulfilled: (data) => ({
+    loading: false,
+    data: data,
+    error: null
+  }),
+  rejected: (data) => ({
+    loading: false,
+    data: [],
+    error: ex
+  })
+}
+
+const initialUserList = {
+  loading: false,
+  data: [],
+  error: null
+}
+const userList = createReducer(initialUserList, {
+  [C.LIST_REQ]: (state, action) => APIHandler.request([]),
+  [C.LIST_FUL]: (state, action) => APIHandler.fulfilled(action.payload),
+  [C.LIST_REJ]: (state, action) => APIHandler.rejected(action.payload)
+})
+
+const initialSaveList = {
+  loading: false,
+  response: {},
+  error: null
+}
+const saveList = createReducer(initialSaveList, {
+  [C.SAVE_LIST_REQ]: (state, action) => APIHandler.request({}),
+  [C.SAVE_LIST_FUL]: (state, action) => APIHandler.fulfilled(action.payload),
+  [C.SAVE_LIST_REJ]: (state, action) => APIHandler.rejected(action.payload)
+})
+
+const formReducer = createReducer(null, {
+  [C.FORM_SAVE]: (state, action) => action.form,
+  [C.DRM_REFRESH_CAMPAIGN_SETTING]: (state, action) => null
+})
+
+const portofolioBool = createReducer(false, {
+  'FETCH_EXISTING_PORTFOLIO': (state, action) => true,
+  [C.DRM_REFRESH_CAMPAIGN_SETTING]: (state, action) => false
+})
+
+const initialPortofolio = [
+  {value: 0, label: 'Fetching Existing Portfolio...'}
+]
+const portofolio = createReducer(initialPortofolio, {
+  'FETCH_EXISTING_PORTFOLIO': (state, action) => action.data.map(item => ({value: item.id, label: item.name})),
+  [C.DRM_REFRESH_CAMPAIGN_SETTING]: (state, action) => initialPortofolio
+})
+
+const drmCampaignSetting = combineReducers({
+  userlist: userList,
+  savelist: saveList,
+  form: formReducer,
+  haveExistingPortfolio: portofolioBool,
+  existingPortfolio: portofolio
+})
+
+export default drmCampaignSetting;
+```
