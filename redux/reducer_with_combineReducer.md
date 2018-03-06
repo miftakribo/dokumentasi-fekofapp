@@ -245,8 +245,24 @@ const drmCampaignSetting = combineReducers({
 
 export default drmCampaignSetting;
 ```
+keuntungan menbuat fetchHandler adalah agar setiap fetch yang dilakukan memiliki flow yang sama, dan disarankan data yang diteruskan dari action adalah original response data dari API, kalaupun mesti ada normalize /  mapping ke bentuk yang dilakukan sebaiknya di lakukan di component atau menggunakan library selector 'reselect'.
+dikarenakan combine reducer bisa nested berguna untuk memecah reducer yang kompleks menjadi bentuk2 reducer kecil yang lebih sederhana tanpa merubah structur reducer sebelumnya.
+```javascript
+rootReducer = combineReducers({
+  router, // redux-react-router reducer
+    account: combineReducers({
+      profile: combineReducers({
+         info, // reducer function
+         credentials // reducer function
+      }),
+      billing // reducer function
+    }),
+    // ... other combineReducers
+  })
+});
+```
 
-setelah mengunakan createReducer:
+setelah mengunakan createReducer: [sumber](https://redux.js.org/recipes/structuring-reducers/refactoring-reducers-example)
 
 ```javascript
 export function createReducer(initialState, handlers) {
