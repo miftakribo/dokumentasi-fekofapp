@@ -1,4 +1,12 @@
-before
+# refactor reducer
+
+mungkin ini berguna jika reducer yang kita buat terlalu besar dan komplex sehingga butuh direfactor menjadi beberapa bagian, berikut contoh kasus yang di ambil dari 'drm/campaign-setting' (mungkin kasus pada contoh di bawah belum perlu di refactor karena tidak besar dan tidak kompleks)
+
+- membuat 'reusable function' contoh: fetchHandler
+- jika reducer bloated, pecah saja dengan combineReducer 
+- buat fungsi createReducer agar reducer lebih slim
+
+berikut merupakan contoh kasus reducer sebelum direfactor:
 
 ```javascript
 import * as C from './constant';
@@ -124,7 +132,7 @@ export default drmCampaignSetting;
 ```
 
 
-after
+setelah menggunakan combineReducer dan fungsi fetchHandler:
 ```javascript
 import * as C from './constant';
 import { combineReducers } from 'redux'
@@ -238,8 +246,8 @@ const drmCampaignSetting = combineReducers({
 export default drmCampaignSetting;
 ```
 
-with createReducer helpers
-- createReducer:
+setelah mengunakan createReducer:
+
 ```javascript
 export function createReducer(initialState, handlers) {
   return function reducer(state = initialState, action) {
