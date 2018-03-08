@@ -1,5 +1,36 @@
 # refactor reducer
 
+<img width="500" src="https://github.com/miftakribo/dokumentasi-fekofapp/blob/master/redux/Screen%20Shot%202018-03-08%20at%2010.45.54.png" />
+
+menurut saya structur reducer diatas udah mulai bloated, dan perlu direfactor ke dalam bentuk tree agar tidak memusingkan developer. contoh:
+```javascript
+{
+  profile: { /*...*/ },
+  register: { /*...*/ },
+  builder: {
+    sem: { /*...*/ },
+    drm: { /*...*/ },
+    shopping:{
+      datasource: { /*...*/ },
+      datafeedMapping: { /*...*/ },
+      /*...*/
+    }
+  }
+}
+
+// alternative
+
+{
+  profile: { /*...*/ },
+  register: { /*...*/ },
+  builder: {
+    datasource: { /*...*/ }, 
+    campaignMapping: { /*...*/ },
+    adsBuilder:{ /*...*/ }
+  }
+}
+```
+
 Ini berguna jika reducer yang kita buat terlalu besar dan komplex sehingga butuh direfactor dengan cara:
 1. membuat 'reusable function': *fetchHandler*, *createReducer*.
 2. memecah reducer yang komplex menjadi beberapa sub-reducer yang sederhana menggunakan *combineReducer*.
